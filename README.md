@@ -1,6 +1,8 @@
 # BannerDemo
 A banner demo is based on vlayout
 
+简书地址：[地址](https://www.jianshu.com/p/3d9e6aa2366f)
+
 一个基于阿里RecyclerView框架[Vlayout](https://github.com/alibaba/vlayout)的Banner，可实现自动轮播，滑动暂停轮播，底部indicator指示器。
 
 大体思路：把ViewPager用一个ViewHolder包起来，做成一个size为1的adapter放在RecyclerView中。使用Handler处理轮播，在ViewPager的监听器中改变底部indicator，以及控制滑动暂定轮播--当ScrollState为SCROLL_STATE_DRAGGING的时候把定时任务取消，下一次ScrollState为SCROLL_STATE_IDLE的时候再开启定时任务。ViewPager的PagerAdapter使用Vlayout的RecyclablePagerAdapter。由于RecyclerView的Adapter 的Item在滑出屏幕再滑入屏幕的时候onBindViewHolder会重复调用，如果不加以控制的化就会每次onBindViewHolder调用都初始化一遍ViewPager，导致banner滑回来的时候就跳到了第一张，其实banner只需要初始化一次就够了，为了解决这个问题，再onBindViewHolder的时候通过标志位判断，如果未初始化才走初始化过程，当数据变化时，改变标志位重新初始化banner。
@@ -212,8 +214,6 @@ mHandler = new Handler(Looper.getMainLooper()) {
 
     }
 ```
-![blockchain]( "gif1")
-![blockchain]( "gif2")
 
 当banner数据改变例如网络数据刷新需要重新初始化banner
 ```
