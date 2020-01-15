@@ -212,6 +212,8 @@ mHandler = new Handler(Looper.getMainLooper()) {
 
     }
 ```
+![blockchain]( "gif1")
+![blockchain]( "gif2")
 
 当banner数据改变例如网络数据刷新需要重新初始化banner
 ```
