@@ -221,3 +221,7 @@ mHandler = new Handler(Looper.getMainLooper()) {
         notifyDataSetChanged();
     }
 ```
+
+
+
+完整Demo地址：[BannerDemo](https://github.com/SYSU-ZPF/BannerDemo)
