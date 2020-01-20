@@ -11,7 +11,7 @@ A banner demo is based on vlayout
 两个ViewHolder
 
 ①BannerViewHolder：外层存放ViewPager和指示器LinearLayout的viewHolder（itemCount = 1）
-```
+```java
     static class BannerViewHolder extends RecyclerView.ViewHolder {
         private ViewPager viewPager;
         private LinearLayout pointLl;
@@ -24,7 +24,7 @@ A banner demo is based on vlayout
     }
 ```
 ②BannerInnerViewHolder: 内层存放轮播图的ViewHolder
-```
+```java
     static class BannerInnerViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
 
@@ -36,7 +36,7 @@ A banner demo is based on vlayout
 ```
 
 onCreateViewHolder根据不同的itemType返回不同的ViewHolder
-```
+```java
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
         if (type == BANNER_OUTER_TYPE) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.banner_viewpager, viewGroup, false);
@@ -50,7 +50,7 @@ onCreateViewHolder根据不同的itemType返回不同的ViewHolder
 
 继承Vlayout RecyclablePagerAdapter的PagerAdater
 为了让banner无限滑动这里把ViewPager的count设置为MAX_VALUE,并在viewPager初始化时把CurrentItem设置为一个中间的的数
-```
+```java
 
         @Override
         public int getCount() {
@@ -75,7 +75,7 @@ onCreateViewHolder根据不同的itemType返回不同的ViewHolder
 
 在外层Adapter的onBindViewHolder中初始化ViewPager，设置mViewpager的CurrentItem，
 把pointList添加到在线性布局中，并改变初始化标志位
-```
+```java
 @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof BannerViewHolder && !init) {
@@ -103,7 +103,7 @@ onCreateViewHolder根据不同的itemType返回不同的ViewHolder
 在ViewPager的PageChangeListener中主要时①在图片切换时改变指示器②在拖动时removeHandlerMessage，
 在拖动完成变成idle状态时候再开启定时任务sendEmptyMessageDelayed，每次被用户拖动的时候state就变成DRAGGING，在放开归位之后就变成IDLE
 ，看官方关于ViewPager.STATE 的解释
-```
+```java
     /**
      * Indicates that the pager is in an idle, settled state. The current page
      * is fully in view and no animation is in progress.
@@ -128,7 +128,7 @@ SCROLL_STATE_DRAGGING:被用户拖动
 
 SCROLL_STATE_SETTLING:在过渡到另外一个position的过程中
 
-```
+```java
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
                 boolean dragging =  false;
@@ -186,7 +186,7 @@ SCROLL_STATE_SETTLING:在过渡到另外一个position的过程中
 
 Handler轮询,改变CurrentItem，并延迟6s（banner跳转间隔）再发message,使用hashCode是为了防止实例化多个
 BannerAdapter导致一个banner处理其他banner发来的消息
-```
+```java
 mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -201,7 +201,7 @@ mHandler = new Handler(Looper.getMainLooper()) {
         };
 ```
 
-```
+```java
     private void removeHandlerMessage() {
         if (mHandler != null) {
             mHandler.removeMessages(hashCode);
@@ -216,7 +216,7 @@ mHandler = new Handler(Looper.getMainLooper()) {
 ```
 
 当banner数据改变例如网络数据刷新需要重新初始化banner
-```
+```java
     public void setBannerInfoList(List<BannerInfo> bannerInfoList) {
         this.bannerInfoList = bannerInfoList;
         init = false;
